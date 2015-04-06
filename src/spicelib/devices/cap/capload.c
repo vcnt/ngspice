@@ -45,9 +45,12 @@ CAPload(GENmodel *inModel, CKTcircuit *ckt)
 
                 if(cond1) {
                     vcap = here->CAPinitCond;
-                } else {
+                } else if (here->CAPbranch == 0) {
                     vcap = *(ckt->CKTrhsOld+here->CAPposNode) -
                            *(ckt->CKTrhsOld+here->CAPnegNode) ;
+                } else {
+                    vcap = *(ckt->CKTrhsOld+here->CAPposNode) -
+                           *(ckt->CKTrhsOld+here->CAPauxNode) ;
                 }
                 if(ckt->CKTmode & (MODETRAN | MODEAC)) {
 #ifndef PREDICTOR
@@ -75,12 +78,38 @@ CAPload(GENmodel *inModel, CKTcircuit *ckt)
                     *(here->CAPnegNegptr) += m * geq;
                     *(here->CAPposNegptr) -= m * geq;
                     *(here->CAPnegPosptr) -= m * geq;
-                    *(ckt->CKTrhs+here->CAPposNode) -= m * ceq;
-                    *(ckt->CKTrhs+here->CAPnegNode) += m * ceq;
-                } else
+
+                    if (here->CAPbranch == 0) {
+                        *(ckt->CKTrhs+here->CAPposNode) -= m * ceq;
+                        *(ckt->CKTrhs+here->CAPnegNode) += m * ceq;
+                    } else {
+                        *(here->VSRCposIbrptr) += 1.0 ;
+                        *(here->VSRCnegIbrptr) -= 1.0 ;
+                        *(here->VSRCibrPosptr) += 1.0 ;
+                        *(here->VSRCibrNegptr) -= 1.0 ;
+                        *(ckt->CKTrhs+here->CAPposNode) -= m * ceq;
+                        *(ckt->CKTrhs+here->CAPauxNode) += m * ceq;
+                    }
+                } else {
+                    if (here->CAPbranch) {
+                        *(here->VSRCposIbrptr) += 1.0 ;
+                        *(here->VSRCnegIbrptr) -= 1.0 ;
+                        *(here->VSRCibrPosptr) += 1.0 ;
+                        *(here->VSRCibrNegptr) -= 1.0 ;
+                    }
                     *(ckt->CKTstate0+here->CAPqcap) = here->CAPcapac * vcap;
+                }
             }
         }
+    } else {
+        for (; model; model = model->CAPnextModel)
+            for (here = model->CAPinstances; here; here=here->CAPnextInstance)
+                if (here->CAPbranch) {
+                    *(here->VSRCposIbrptr) += 1.0 ;
+                    *(here->VSRCnegIbrptr) -= 1.0 ;
+                    *(here->VSRCibrPosptr) += 1.0 ;
+                    *(here->VSRCibrNegptr) -= 1.0 ;
+                }
     }
     return(OK);
 }

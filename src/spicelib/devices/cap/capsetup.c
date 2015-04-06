@@ -111,12 +111,45 @@ do { if((here->ptr = SMPmakeElt(matrix, here->first, here->second)) == NULL){\
     return(E_NOMEM);\
 } } while(0)
 
-            TSTALLOC(CAPposPosptr,CAPposNode,CAPposNode);
-            TSTALLOC(CAPnegNegptr,CAPnegNode,CAPnegNode);
-            TSTALLOC(CAPposNegptr,CAPposNode,CAPnegNode);
-            TSTALLOC(CAPnegPosptr,CAPnegNode,CAPposNode);
+            if (here->CAPbranch == 0) {
+                TSTALLOC(CAPposPosptr, CAPposNode, CAPposNode);
+                TSTALLOC(CAPnegNegptr, CAPnegNode, CAPnegNode);
+                TSTALLOC(CAPposNegptr, CAPposNode, CAPnegNode);
+                TSTALLOC(CAPnegPosptr, CAPnegNode, CAPposNode);
+            } else {
+                TSTALLOC(CAPposPosptr, CAPposNode, CAPposNode);
+                TSTALLOC(CAPnegNegptr, CAPauxNode, CAPauxNode);
+                TSTALLOC(CAPposNegptr, CAPposNode, CAPauxNode);
+                TSTALLOC(CAPnegPosptr, CAPauxNode, CAPposNode);
+
+                TSTALLOC(VSRCposIbrptr, CAPauxNode, CAPbranch);
+                TSTALLOC(VSRCnegIbrptr, CAPnegNode, CAPbranch);
+                TSTALLOC(VSRCibrNegptr, CAPbranch,  CAPnegNode);
+                TSTALLOC(VSRCibrPosptr, CAPbranch,  CAPauxNode);
+            }
         }
     }
     return(OK);
 }
 
+
+int
+CAPunsetup(GENmodel *inModel, CKTcircuit *ckt)
+{
+    CAPmodel *model = (CAPmodel *) inModel;
+    CAPinstance *here;
+
+    for (; model; model = model->CAPnextModel)
+        for (here = model->CAPinstances; here; here = here->CAPnextInstance) {
+            if (here->CAPbranch) {
+                CKTdltNNum(ckt, here->CAPbranch);
+                here->CAPbranch = 0;
+            }
+            if (here->CAPauxNode) {
+                CKTdltNNum(ckt, here->CAPauxNode);
+                here->CAPauxNode = 0;
+            }
+        }
+
+    return OK;
+}
