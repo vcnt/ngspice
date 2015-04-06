@@ -82,11 +82,45 @@ do { if((here->ptr = SMPmakeElt(matrix, here->first, here->second)) == NULL){\
     return(E_NOMEM);\
 } } while(0)
 
-            TSTALLOC(RESposPosptr, RESposNode, RESposNode);
-            TSTALLOC(RESnegNegptr, RESnegNode, RESnegNode);
-            TSTALLOC(RESposNegptr, RESposNode, RESnegNode);
-            TSTALLOC(RESnegPosptr, RESnegNode, RESposNode);
+            if (here->RESbranch == 0) {
+                TSTALLOC(RESposPosptr, RESposNode, RESposNode);
+                TSTALLOC(RESnegNegptr, RESnegNode, RESnegNode);
+                TSTALLOC(RESposNegptr, RESposNode, RESnegNode);
+                TSTALLOC(RESnegPosptr, RESnegNode, RESposNode);
+            } else {
+                TSTALLOC(RESposPosptr, RESposNode, RESposNode);
+                TSTALLOC(RESnegNegptr, RESauxNode, RESauxNode);
+                TSTALLOC(RESposNegptr, RESposNode, RESauxNode);
+                TSTALLOC(RESnegPosptr, RESauxNode, RESposNode);
+
+                TSTALLOC(VSRCposIbrptr, RESauxNode, RESbranch);
+                TSTALLOC(VSRCnegIbrptr, RESnegNode, RESbranch);
+                TSTALLOC(VSRCibrNegptr, RESbranch,  RESnegNode);
+                TSTALLOC(VSRCibrPosptr, RESbranch,  RESauxNode);
+            }
         }
     }
     return(OK);
+}
+
+
+int
+RESunsetup(GENmodel *inModel, CKTcircuit *ckt)
+{
+    RESmodel *model = (RESmodel *) inModel;
+    RESinstance *here;
+
+    for (; model; model = model->RESnextModel)
+        for (here = model->RESinstances; here; here = here->RESnextInstance) {
+            if (here->RESbranch) {
+                CKTdltNNum(ckt, here->RESbranch);
+                here->RESbranch = 0;
+            }
+            if (here->RESauxNode) {
+                CKTdltNNum(ckt, here->RESauxNode);
+                here->RESauxNode = 0;
+            }
+        }
+
+    return OK;
 }
