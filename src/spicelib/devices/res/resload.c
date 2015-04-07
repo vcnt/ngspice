@@ -79,6 +79,13 @@ RESacload(GENmodel *inModel, CKTcircuit *ckt)
                 *(here->RESposNegptr) -= m * here->RESconduct;
                 *(here->RESnegPosptr) -= m * here->RESconduct;
             }
+
+            if (here->RESbranch) {
+                *(here->VSRCposIbrptr) += 1.0 ;
+                *(here->VSRCnegIbrptr) -= 1.0 ;
+                *(here->VSRCibrPosptr) += 1.0 ;
+                *(here->VSRCibrNegptr) -= 1.0 ;
+            }
         }
     }
     return(OK);
