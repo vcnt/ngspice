@@ -102,7 +102,8 @@ extern "C" {
 
 /* required only if header is used by the caller,
    is already defined in ngspice.dll */
-#ifndef ngspice_NGSPICE_H
+//#ifndef ngspice_NGSPICE_H
+#ifndef ngspice_COMPLEX_H
 /* Complex numbers. */
 struct ngcomplex {
     double cx_real;
