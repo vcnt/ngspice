@@ -192,7 +192,7 @@ void SetSource( char * Name)
 }
 
 // ------------------------------<Analyse-Fenster>-----------------------------
-
+#ifndef SHARED_MODULE
 /* New progress report into analysis window.
    Update only every DELTATIME milliseconds */
 #define DELTATIME 150
@@ -260,7 +260,7 @@ void SetAnalyse(
    UpdateWindow(hwAnalyse);
    UpdateWindow(hwMain);
 }
-
+#endif
 // ------------------------------<Textfenster>---------------------------------
 
 // Anpassen des Scrollers im Textfenster

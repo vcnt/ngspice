@@ -55,7 +55,7 @@
 #define HAS_TCLWIN 1
 
 /* define to specify MS Windows executable */
-// #define HAS_WINGUI 1
+#define HAS_WINGUI 1
 
 /* Define to 1 if you have the `access' function. */
 #define HAVE_ACCESS 1

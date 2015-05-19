@@ -334,6 +334,7 @@
     <ClInclude Include="..\src\frontend\completion.h" />
     <ClInclude Include="..\src\include\ngspice\complex.h" />
     <ClInclude Include="..\src\conf.h" />
+    <ClInclude Include="..\src\winmain.h" />
     <ClInclude Include="include\ngspice\config.h" />
     <ClInclude Include="..\src\include\ngspice\const.h" />
     <ClInclude Include="..\src\include\ngspice\contdefs.h" />
@@ -694,6 +695,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\frontend\trannoise\1-f-code.c" />
+    <ClCompile Include="..\src\frontend\wdisp\windisp.c" />
+    <ClCompile Include="..\src\frontend\wdisp\winprint.c" />
     <ClCompile Include="..\src\spicelib\analysis\acan.c" />
     <ClCompile Include="..\src\spicelib\analysis\acaskq.c" />
     <ClCompile Include="..\src\maths\misc\accuracy.c" />
@@ -1150,6 +1153,7 @@
     <ClCompile Include="..\src\spicelib\analysis\ckttyplk.c" />
     <ClCompile Include="..\src\frontend\plotting\clip.c" />
     <ClCompile Include="..\src\spicelib\analysis\cluster.c" />
+    <ClCompile Include="..\src\winmain.c" />
     <ClCompile Include="..\src\xspice\cm\cm.c" />
     <ClCompile Include="..\src\maths\cmaths\cmath1.c" />
     <ClCompile Include="..\src\maths\cmaths\cmath2.c" />

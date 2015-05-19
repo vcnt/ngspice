@@ -13,6 +13,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="frontend">
+      <UniqueIdentifier>{5b0eb417-8366-4ff5-8a1d-ef6342cfb621}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\include\ngspice\1-f-code.h">
@@ -1504,6 +1507,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\frontend\plotting\xgraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\winmain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -5797,6 +5803,15 @@
     </ClCompile>
     <ClCompile Include="..\src\frontend\numparam\xpressn.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\winmain.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\frontend\wdisp\windisp.c">
+      <Filter>frontend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\frontend\wdisp\winprint.c">
+      <Filter>frontend</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
