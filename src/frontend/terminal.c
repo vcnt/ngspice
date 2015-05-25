@@ -83,6 +83,7 @@ out_init(void)
 #endif
 
     noprint = nopause = FALSE;
+	nopause = TRUE;
 
     if (cp_getvar("nomoremode", CP_BOOL, NULL))
         out_moremode = FALSE;
